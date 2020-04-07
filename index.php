@@ -2,12 +2,15 @@
 
 require('./configs/config.php');
 require('./utils/dbaccess.php');
+require('./models/team.php');
+
+$pdo = getConnection(); 
 
 define('TODAY', (new DateTime('now', new DateTimeZone('Europe/Brussels')))->format('M jS, Y')); // constente
 define('FILE_PATH', 'matches.csv');
 $matches = []; // cariables
 $standings = [];
-$teams = [];
+$teams = all($pdo);
 
 function getEmptyStatsArray()
 {
@@ -40,7 +43,7 @@ while ($line = fgetcsv($handle, 1000)) {
     $standings[$homeTeam]['games']++;
     $standings[$awayTeam]['games']++;
 
-    if ($match['home-tell::am-goals'] === $match['away-team-goals']) {
+    if ($match['home-team-goals'] === $match['away-team-goals']) {
         $standings[$homeTeam]['points']++;
         $standings[$awayTeam]['points']++;
         $standings[$homeTeam]['draws']++;
@@ -70,7 +73,5 @@ uasort($standings, function ($a, $b) {
     return $a['points'] > $b['points'] ? -1 : 1;
 });
 
-$teams = array_keys($standings);
-sort($teams);
 
 require('views/vue.php');

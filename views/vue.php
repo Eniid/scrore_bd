@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Premier League 2020</title>
+    <title>Coupe des quatres maisons</title>
 </head>
 <body>
 <h1>Premier League 2020</h1>
@@ -77,8 +77,8 @@
         <br>
         <label for="home-team">Équipe à domicile</label>
         <select name="home-team" id="home-team">
-            <?php foreach ($teams as $team): ?>
-                <option value="<?= $team ?>"><?= $team ?></option>
+        <?php foreach ($teams as $team): ?>
+                <option value="<?= $team->id ?>"><?= $team->name ?></option>
             <?php endforeach; ?>
         </select>
         <label for="home-team-unlisted">Équipe non listée&nbsp;?</label>
@@ -90,7 +90,7 @@
         <label for="away-team">Équipe visiteuse</label>
         <select name="away-team" id="away-team">
             <?php foreach ($teams as $team): ?>
-                <option value="<?= $team ?>"><?= $team ?></option>
+                <option value="<?= $team->id ?>"><?= $team->name ?></option>
             <?php endforeach; ?>
         </select>
         <label for="away-team-unlisted">Équipe non listée&nbsp;?</label>
