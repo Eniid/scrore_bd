@@ -1,8 +1,11 @@
 <?php
 
-define('TODAY', (new DateTime('now', new DateTimeZone('Europe/Brussels')))->format('M jS, Y'));
+require('./configs/config.php');
+require('./utils/dbaccess.php');
+
+define('TODAY', (new DateTime('now', new DateTimeZone('Europe/Brussels')))->format('M jS, Y')); // constente
 define('FILE_PATH', 'matches.csv');
-$matches = [];
+$matches = []; // cariables
 $standings = [];
 $teams = [];
 
@@ -20,8 +23,8 @@ function getEmptyStatsArray()
     ];
 }
 
-$handle = fopen(FILE_PATH, 'r');
-$headers = fgetcsv($handle, 1000);
+$handle = fopen(FILE_PATH, 'r'); //! r -> lire le fichier (fivhier csv)
+$headers = fgetcsv($handle, 1000); //deuxiéme partie pour lire le fichier
 
 while ($line = fgetcsv($handle, 1000)) {
     $match = array_combine($headers, $line);
@@ -37,7 +40,7 @@ while ($line = fgetcsv($handle, 1000)) {
     $standings[$homeTeam]['games']++;
     $standings[$awayTeam]['games']++;
 
-    if ($match['home-team-goals'] === $match['away-team-goals']) {
+    if ($match['home-tell::am-goals'] === $match['away-team-goals']) {
         $standings[$homeTeam]['points']++;
         $standings[$awayTeam]['points']++;
         $standings[$homeTeam]['draws']++;
@@ -70,4 +73,4 @@ uasort($standings, function ($a, $b) {
 $teams = array_keys($standings);
 sort($teams);
 
-require('vue.php');
+require('views/vue.php');
